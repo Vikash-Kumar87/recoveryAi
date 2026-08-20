@@ -5,6 +5,8 @@ export type ActivityType =
   | 'RECOVERY_RECOMMENDED'
   | 'RECOVERY_INITIATED'
   | 'MESSAGE_GENERATED'
+  | 'MESSAGE_SENT'
+  | 'RETRY_ATTEMPTED'
   | 'PAYMENT_RECOVERED';
 
 export interface IActivity extends Document {
@@ -28,6 +30,8 @@ const ActivitySchema: Schema = new Schema(
         'RECOVERY_RECOMMENDED',
         'RECOVERY_INITIATED',
         'MESSAGE_GENERATED',
+        'MESSAGE_SENT',
+        'RETRY_ATTEMPTED',
         'PAYMENT_RECOVERED',
       ],
       index: true,

@@ -81,7 +81,7 @@ export const generateRecoveryMessage = async (paymentId: string, tone?: string) 
     throw new Error(`Payment with ID ${paymentId} not found.`);
   }
 
-  let recovery = await Recovery.findOne({ paymentId });
+  let recovery: any = await Recovery.findOne({ paymentId });
   if (!recovery) {
     recovery = await runPaymentAnalysis(paymentId);
   }
@@ -200,7 +200,7 @@ export const simulatePaymentRetry = async (paymentId: string) => {
     throw new Error(`Payment with ID ${paymentId} not found.`);
   }
 
-  let recovery = await Recovery.findOne({ paymentId });
+  let recovery: any = await Recovery.findOne({ paymentId });
   if (!recovery) {
     recovery = await runPaymentAnalysis(paymentId);
   }
