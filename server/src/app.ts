@@ -26,29 +26,16 @@ export const createApp = (): Express => {
     app.use(morgan(env.NODE_ENV === 'production' ? 'combined' : 'dev'));
   }
 
-  // CORS Configuration
-  const allowedOrigins = [
-    env.FRONTEND_URL,
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'http://localhost:5175',
-    'http://localhost:3000',
-  ];
-
+  // CORS Configuration - Permissive for Vercel production, preview deployments, and local dev
   app.use(
     cors({
-      origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(null, true); // Permissive in prototype for easy evaluation
-        }
-      },
+      origin: true,
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
     })
   );
+  app.options('*', cors());
 
   // Body parser
   app.use(express.json({ limit: '1mb' }));

@@ -536,7 +536,23 @@ export const seedDatabase = async () => {
   } catch (error) {
     logger.error('Error during database seed:', error);
   } finally {
-    await disconnectDatabase();
+    if (process.argv[1]?.endsWith('seedPayments.ts') || process.argv[1]?.endsWith('seedPayments.js')) {
+      await disconnectDatabase();
+    }
+  }
+};
+
+export const autoSeedIfEmpty = async () => {
+  try {
+    const paymentCount = await Payment.countDocuments();
+    if (paymentCount === 0) {
+      logger.info('No payments found in MongoDB Atlas. Automatically populating demo payments dataset...');
+      await seedDatabase();
+    } else {
+      logger.info(`Database already contains ${paymentCount} payment records. Skipping auto-seed.`);
+    }
+  } catch (error) {
+    logger.warn('Auto-seed check encountered an issue (non-blocking):', error);
   }
 };
 
