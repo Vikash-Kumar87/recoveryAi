@@ -16,7 +16,7 @@ const startServer = async () => {
     const app = createApp();
 
     // 3. Start Listening
-    const server = app.listen(env.PORT, () => {
+    const server = app.listen(env.PORT, '0.0.0.0', () => {
       logger.info('==================================================');
       logger.info(`🚀 RecoverAI Backend Server Running on Port ${env.PORT}`);
       logger.info(`👉 Health Check: http://localhost:${env.PORT}/api/health`);
